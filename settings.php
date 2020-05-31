@@ -1,5 +1,6 @@
 <?php
   session_start();
+
   if(!isset($_SESSION['login']))
   {
     header('Location: index.php');
@@ -11,15 +12,19 @@
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Update Page</title>
+  <title>Settings</title>
+  <style>
+		.error
+		{
+			color:red;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+	</style>
 </head>
 <body>
-  <p>Update data</p>
-  <p><form action="update.php" method="post">
-    Login: <br/><input type="text" name="login"/><br/>
-    Password: <br/><input type="password" name="password"/><br/>
-    <input type="Submit" value="Update"/>
-  </form></p>
-  <p><a href = "profile.php">Profile</a><p>
+  <p><a href = "update.php">Update data</a><p>
+  <p><a href = "delete.php">Delete account</a><p>
+  <p><a href = "profile.php">Return to profile</a><p>
 </body>
 </html>

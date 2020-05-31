@@ -15,21 +15,24 @@
     $password = $_POST['password'];
     $login = htmlentities($login, ENT_QUOTES, "UTF-8");
     $password = htmlentities($password, ENT_QUOTES, "UTF-8");
-    if($result = $connect -> query(
-    sprintf("SELECT * FROM user WHERE login = '%s' AND password = '%s' ",
-    mysqli_real_escape_string($connect, $login),
-    mysqli_real_escape_string($connect, $password))));
-    {
+    if ($result = $connect -> query(
+      sprintf("SELECT * FROM user WHERE login = '%s'",
+      mysqli_real_escape_string($connect, $login),
+      mysqli_real_escape_string($connect, $password)))
+    ); {
       $number = $result -> num_rows;
-      if($number > 0)
+      $row = $result -> fetch_assoc();
+
+      if($number == 1 && password_verify($_POST['password'], $row['password']))
       {
-        $_SESSION['login'] = true;
-        $row = $result -> fetch_assoc();
-        $_SESSION['login'] = $row['login'];
-        $_SESSION['password'] = $row['password'];
-        unset($_SESSION['error']);
-        $result -> free_result();
-        header('Location: profile.php');
+          $_SESSION['login'] = true;
+          $_SESSION['login'] = $row['login'];
+          $_SESSION['password'] = $_POST['password'];
+          $_SESSION['password_hash_db'] = $row['password'];
+
+          unset($_SESSION['error']);
+          $result -> free_result();
+          header('Location: profile.php');
       }
       else
       {
